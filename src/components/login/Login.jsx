@@ -1,9 +1,15 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
+import app from '../../firebase/firebase.confige';
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+
+const auth = getAuth(app)
+
+const googleProvider = new GoogleAuthProvider()
 
 const Login = () => {
-  const { signIn, logInWithGoogle } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
   const handelLogin = (event) => {
     event.preventDefault();
@@ -21,16 +27,16 @@ const Login = () => {
       });
   };
 
-  // const handelLoginGoogle = () =>{
-  //   logInWithGoogle()
-  //   .then(result => {
-  //     const loggedUser = result.user;
-  //     console.log(loggedUser);
-  //   })
-  //   .catch(error => {
-  //     console.error(error);
-  //   })
-  // }
+  const handelLoginGoogle = () =>{
+    signInWithPopup(auth, googleProvider)
+    .then(result => {
+      const loggedUser = result.user;
+      console.log(loggedUser);
+    })
+    .catch(error => {
+      console.error(error);
+    })
+  }
 
   return (
     <div>
@@ -81,7 +87,7 @@ const Login = () => {
                   />
                   <span className="font-bold">Login with Facebook</span>
                 </div>
-                <div className="flex border-2 items-center gap-10 mt-5">
+                <div onClick={handelLoginGoogle} className="flex border-2 items-center gap-10 mt-5">
                   <img className="w-10"
                     src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-02-512.png"
                     alt=""
