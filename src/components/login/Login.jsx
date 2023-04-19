@@ -3,24 +3,34 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 const Login = () => {
+  const { signIn, logInWithGoogle } = useContext(AuthContext);
 
-const {signIn} = useContext(AuthContext);
-
-const handelLogin =(event) =>{
+  const handelLogin = (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
 
-    signIn(email,password)
-    .then(result =>{
+    signIn(email, password)
+      .then((result) => {
         const logIn = result.user;
         console.log(logIn);
-    })
-    .catch(error =>{
+      })
+      .catch((error) => {
         console.log(error);
-    })
-}
+      });
+  };
+
+  // const handelLoginGoogle = () =>{
+  //   logInWithGoogle()
+  //   .then(result => {
+  //     const loggedUser = result.user;
+  //     console.log(loggedUser);
+  //   })
+  //   .catch(error => {
+  //     console.error(error);
+  //   })
+  // }
 
   return (
     <div>
@@ -64,6 +74,20 @@ const handelLogin =(event) =>{
                     Forgot password?
                   </a>
                 </label>
+                <div className="flex border-2 items-center gap-10 mt-5">
+                  <img className="w-10"
+                    src="https://cdn2.iconfinder.com/data/icons/social-icons-33/128/Facebook-512.png"
+                    alt=""
+                  />
+                  <span className="font-bold">Login with Facebook</span>
+                </div>
+                <div className="flex border-2 items-center gap-10 mt-5">
+                  <img className="w-10"
+                    src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-02-512.png"
+                    alt=""
+                  />
+                  <span className="font-bold">Login with Google</span>
+                </div>
               </div>
               <div className="form-control mt-6">
                 <button className="btn btn-primary">Login</button>
